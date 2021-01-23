@@ -28,6 +28,7 @@ public class ExcelReaderUtil {
 		Workbook workbook = new XSSFWorkbook(inputStream);
 		Sheet sheet = workbook.getSheetAt(0);
 		if (sheet.getLastRowNum() == 0) {
+			workbook.close();
 			return questions;
 		}
 
@@ -37,6 +38,8 @@ public class ExcelReaderUtil {
 			Question ques = extractQuestion(headerRow, currRow);
 			questions.add(ques);
 		}
+		
+		workbook.close();
 
 		return questions;
 	}

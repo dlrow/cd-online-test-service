@@ -6,30 +6,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cd.onlinetest.enums.CDConstants;
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/api/test")
+@RequestMapping("/v1/test")
 public class TestController {
+
 	@GetMapping("/all")
-	public String allAccess() {
+	@PreAuthorize(CDConstants.STUDENT_ROLE)
+	public String getAllTests() {
 		return "Public Content.";
 	}
 	
-	@GetMapping("/user")
-	@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
-	public String userAccess() {
-		return "User Content.";
+	@GetMapping("/allpub")
+	public String pub() {
+		return "Public Content.";
 	}
 
-	@GetMapping("/mod")
-	@PreAuthorize("hasRole('MODERATOR')")
-	public String moderatorAccess() {
-		return "Moderator Board.";
+	@GetMapping("/all/{id}")
+	@PreAuthorize(CDConstants.ANY_ROLE)
+	public String getTestById() {
+		return "Public Content.";
 	}
 
-	@GetMapping("/admin")
-	@PreAuthorize("hasRole('ADMIN')")
-	public String adminAccess() {
-		return "Admin Board.";
-	}
 }

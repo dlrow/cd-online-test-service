@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,28 +22,33 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/ques")
+@RequestMapping("/v1/question")
 public class QuestionController {
 
 	@Autowired
 	QuestionService questionService;
+	
+	@GetMapping(value = "/test")
+	public ResponseEntity<String> test() {
+		log.info("getQuestion subject method called :");
+		return ResponseEntity.status(HttpStatus.OK).body("ok");
+	}
 
-	@CrossOrigin
-	@RequestMapping(value = "/v1/getQuestion", method = RequestMethod.GET)
+	@GetMapping(value = "/getQuestion")
 	public ResponseEntity<List<Question>> getQuestion(@RequestParam(required =false) String topic,
 			@RequestParam(required = true) Integer numQues, @RequestParam DifficultyLevel difficultylevel) {
 		log.info("getQuestion subject method called :");
 		return ResponseEntity.status(HttpStatus.OK).body(questionService.getQuestion(topic, numQues, difficultylevel));
 	}
 
-	@RequestMapping(value = "/v1/updateQuestion", method = RequestMethod.POST)
+	@PostMapping(value = "/updateQuestion")
 	public ResponseEntity<String> updateQuestion(@RequestParam String pathOfExcel) {
 		log.info("updateQuestion subject method called :");
 		questionService.updateQuestion(pathOfExcel);
 		return ResponseEntity.status(200).body("updated Successfully");
 	}
 	
-	@RequestMapping(value = "/v1/deleteQuestion", method = RequestMethod.DELETE)
+	@DeleteMapping(value = "/deleteQuestion")
 	public ResponseEntity<String> deleteQuestion(@RequestParam String topic) {
 		log.info("deleteQuestion subject method called :");
 		questionService.deleteQuestion(topic);
