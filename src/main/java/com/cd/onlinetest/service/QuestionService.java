@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cd.onlinetest.config.DbChannel;
+import com.cd.onlinetest.dto.QuestionDto;
 import com.cd.onlinetest.enums.DifficultyLevel;
 import com.cd.onlinetest.mongoDomain.Question;
 import com.cd.onlinetest.util.ExcelReaderUtil;
@@ -26,10 +27,11 @@ public class QuestionService {
 	public List<Question> getQuestion(String topic, Integer numQues, DifficultyLevel difficultylevel) {
 		List<Question> questions = dbChannel.getQuestion(topic, numQues, difficultylevel);
 		Collections.shuffle(questions);
-		List<Question> questionList = questions.subList(0, Math.min(numQues,questions.size()));
+		List<Question> questionList = questions.subList(0, Math.min(numQues, questions.size()));
 		return questionList;
 	}
 
+	// TODO : update question in chunks
 	public void updateQuestion(String path) {
 		List<Question> questions = null;
 		try {
@@ -42,6 +44,16 @@ public class QuestionService {
 
 	public void deleteQuestion(String topic) {
 		dbChannel.deleteQuestion(topic);
+	}
+
+	public List<QuestionDto> getQuestionByTopicId(String topicId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<QuestionDto> getQuestionByTestId(String testId) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

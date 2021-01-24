@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cd.onlinetest.dto.QuestionDto;
 import com.cd.onlinetest.enums.DifficultyLevel;
 import com.cd.onlinetest.mongoDomain.Question;
 import com.cd.onlinetest.service.QuestionService;
@@ -32,6 +33,18 @@ public class QuestionController {
 	public ResponseEntity<String> test() {
 		log.info("getQuestion subject method called :");
 		return ResponseEntity.status(HttpStatus.OK).body("ok");
+	}
+	
+	@GetMapping(value = "/byTopic")
+	public ResponseEntity<List<QuestionDto>> getQuestionByTopicId(@RequestParam(required =false) String topicId) {
+		log.info("getQuestion subject method called :");
+		return ResponseEntity.status(HttpStatus.OK).body(questionService.getQuestionByTopicId(topicId));
+	}
+	
+	@GetMapping(value = "/byTestId")
+	public ResponseEntity<List<QuestionDto>> getQuestionByTestId(@RequestParam(required =false) String testId) {
+		log.info("getQuestion subject method called :");
+		return ResponseEntity.status(HttpStatus.OK).body(questionService.getQuestionByTestId(testId));
 	}
 
 	@GetMapping(value = "/getQuestion")

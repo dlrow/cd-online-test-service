@@ -25,4 +25,6 @@ public class SwaggerConfig {
 		// apiInfo = new ApiInfo("", "", "", "", "", "", "");
 		return ApiInfo.DEFAULT;
 	}
+	
+	
 }
