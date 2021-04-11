@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cd.onlinetest.dto.QuestionDto;
 import com.cd.onlinetest.enums.DifficultyLevel;
 import com.cd.onlinetest.mongoDomain.Question;
+import com.cd.onlinetest.request.UpdateQuestionReq;
 import com.cd.onlinetest.service.QuestionService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -55,9 +57,9 @@ public class QuestionController {
 	}
 
 	@PostMapping(value = "/updateQuestion")
-	public ResponseEntity<String> updateQuestion(@RequestParam String pathOfExcel) {
-		log.info("updateQuestion subject method called :");
-		questionService.updateQuestion(pathOfExcel);
+	public ResponseEntity<String> updateQuestion(@RequestBody UpdateQuestionReq updateQuestionReq) {
+		log.info("updateQuestion subject method called");
+		questionService.updateQuestion(updateQuestionReq.getPathOfExcel(), updateQuestionReq.getRange());
 		return ResponseEntity.status(200).body("updated Successfully");
 	}
 	

@@ -19,24 +19,34 @@ public class TestService {
 	@Autowired
 	TestRepository testRepository;
 
+	//TODO return tests associated with the signed in user 
 	public List<TestDto> getAllTests() {
-		List<TestDto> testDtos = new ArrayList<>();
 		List<Test> dbTests = testRepository.findAll();
-		dbTests.forEach(dbTest -> {
-			TestDto tdto = new TestDto(dbTest.getId(), dbTest.getName(), dbTest.getDuration());
-			testDtos.add(tdto);
-		});
-		return testDtos;
+		return dbTestToDto(dbTests);
+	}
+	
+	public List<TestDto> getTestById() {
+		List<Test> dbTests = testRepository.findAll();
+		return dbTestToDto(dbTests);
 	}
 
 	// TODO : match if questionId's exists in db
 	public MessageResponse createTest(CreateTestRequest createTestRequest) {
 		Test dbtest = new Test();
 		dbtest.setQuestionIds(createTestRequest.getQuestionIds());
-		dbtest.setName(createTestRequest.getDuration());
+		dbtest.setName(createTestRequest.getName());
 		dbtest.setDuration(createTestRequest.getDuration());
 		testRepository.save(dbtest);
 		return new MessageResponse(HttpStatus.OK, "test created successfully");
+	}
+	
+	private List<TestDto> dbTestToDto(List<Test> dbTests) {
+		List<TestDto> testDtos = new ArrayList<>();
+		dbTests.forEach(dbTest -> {
+			TestDto tdto = new TestDto(dbTest.getId(), dbTest.getName(), dbTest.getDuration());
+			testDtos.add(tdto);
+		});
+		return testDtos;
 	}
 
 }
